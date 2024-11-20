@@ -6,65 +6,89 @@ import numpy as np
 model_filename = r'C:\Users\Yibabe\Desktop\prv_damage_prediction\notebook\pressure_regulating_valve_model.joblib'
 model = joblib.load(model_filename)
 
-# Title of the app
-st.title('Pressure Regulating Valve Damage Prediction')
+# Define the Streamlit dashboard
+st.title("Pressure Regulating Valve Damage Prediction")
+st.sidebar.header("Input Parameters")
 
-# Description of the app
-st.write("""
-This app predicts the probability of failure for a pressure regulating valve
-based on various input parameters.
-""")
+# Numerical input parameters
+Pressure_Input = st.sidebar.number_input(
+    'Pressure Input (kPa)', min_value=0, max_value=2000, value=500, step=10
+)
+Pressure_Output = st.sidebar.number_input(
+    'Pressure Output (kPa)', min_value=0, max_value=2000, value=450, step=10
+)
+Pressure_Difference = st.sidebar.number_input(
+    'Pressure Difference (kPa)', min_value=0, max_value=200, value=50, step=1
+)
+Flow_Rate = st.sidebar.number_input(
+    'Flow Rate (m³/s)', min_value=0.0, max_value=10.0, value=0.5, step=0.1
+)
+Temperature = st.sidebar.number_input(
+    'Temperature (°C)', min_value=-50, max_value=150, value=25, step=1
+)
+Operating_Time = st.sidebar.number_input(
+    'Operating Time (Hours)', min_value=0, max_value=50000, value=1000, step=100
+)
+Valve_Size = st.sidebar.number_input(
+    'Valve Size (mm)', min_value=10, max_value=500, value=100, step=5
+)
+Maintenance_Frequency = st.sidebar.number_input(
+    'Maintenance Frequency (Months)', min_value=0, max_value=60, value=12, step=1
+)
+Load_Cycles = st.sidebar.number_input(
+    'Load Cycles', min_value=0, max_value=20000, value=5000, step=100
+)
 
-# Create input fields for user data (corresponding to your columns)
-Pressure_Input = st.number_input('Pressure Input (kPa)', min_value=0, max_value=1000, value=500)
-Pressure_Output = st.number_input('Pressure Output (kPa)', min_value=0, max_value=1000, value=450)
-Pressure_Difference = st.number_input('Pressure Difference (kPa)', min_value=0, max_value=1000, value=50)
-Flow_Rate = st.number_input('Flow Rate (m³/s)', min_value=0.0, max_value=10.0, value=0.1)
-Temperature = st.number_input('Temperature (°C)', min_value=-50, max_value=100, value=30)
-Operating_Time = st.number_input('Operating Time (Hours)', min_value=0, max_value=10000, value=1000)
-Valve_Size = st.number_input('Valve Size (mm)', min_value=0, max_value=500, value=100)
-Maintenance_Frequency = st.number_input('Maintenance Frequency (Months)', min_value=0, max_value=24, value=12)
-Load_Cycles = st.number_input('Load Cycles', min_value=0, max_value=10000, value=500)
+# Dropdown menus for categorical inputs
+Material_Type = st.sidebar.selectbox(
+    'Material Type', ['Brass', 'Polymer', 'Steel']
+)
+Environmental_Conditions = st.sidebar.selectbox(
+    'Environmental Conditions', ['Corrosive', 'Humid', 'Normal']
+)
 
-# Categorical features encoded as 0 or 1
-Material_Type_Brass = st.selectbox('Material Type (Brass)', [0, 1], index=1)
-Material_Type_Polymer = st.selectbox('Material Type (Polymer)', [0, 1], index=0)
-Material_Type_Steel = st.selectbox('Material Type (Steel)', [0, 1], index=0)
+# Derived features
+Pressure_Ratio = Pressure_Input / max(Pressure_Output, 1)  # Avoid division by zero
+Normalized_Pressure_Difference = Pressure_Difference / max(Pressure_Input, 1)
 
-Environmental_Conditions_Corrosive = st.selectbox('Environmental Conditions (Corrosive)', [0, 1], index=0)
-Environmental_Conditions_Humid = st.selectbox('Environmental Conditions (Humid)', [0, 1], index=1)
-Environmental_Conditions_Normal = st.selectbox('Environmental Conditions (Normal)', [0, 1], index=0)
+# One-hot encoding logic for categorical inputs
+Material_Type_Brass = 1 if Material_Type == 'Brass' else 0
+Material_Type_Polymer = 1 if Material_Type == 'Polymer' else 0
+Material_Type_Steel = 1 if Material_Type == 'Steel' else 0
+Env_Cond_Corrosive = 1 if Environmental_Conditions == 'Corrosive' else 0
+Env_Cond_Humid = 1 if Environmental_Conditions == 'Humid' else 0
+Env_Cond_Normal = 1 if Environmental_Conditions == 'Normal' else 0
 
-# Additional Features
-Pressure_Ratio = st.number_input('Pressure Ratio', min_value=0.0, max_value=10.0, value=1.0)
-Normalized_Pressure_Difference = st.number_input('Normalized Pressure Difference', min_value=0.0, max_value=10.0, value=1.0)
-
-# Prepare the feature array for prediction
-features = np.array([[
-    Pressure_Input,
-    Pressure_Output,
-    Pressure_Difference,
-    Flow_Rate,
-    Temperature,
-    Operating_Time,
-    Valve_Size,
-    Maintenance_Frequency,
-    Load_Cycles,
-    Material_Type_Brass,
-    Material_Type_Polymer,
-    Material_Type_Steel,
-    Environmental_Conditions_Corrosive,
-    Environmental_Conditions_Humid,
-    Environmental_Conditions_Normal,
-    Pressure_Ratio,
+# Input features for prediction
+input_features = [
+    Pressure_Input, Pressure_Output, Pressure_Difference, Flow_Rate,
+    Temperature, Operating_Time, Valve_Size, Maintenance_Frequency,
+    Load_Cycles, Material_Type_Brass, Material_Type_Polymer, Material_Type_Steel,
+    Env_Cond_Corrosive, Env_Cond_Humid, Env_Cond_Normal, Pressure_Ratio,
     Normalized_Pressure_Difference
-]])
+]
 
-# Make prediction using the model
-prediction = model.predict(features)
-prediction_proba = model.predict_proba(features)[0][1]  # Probability of failure
+# Predict and display results
+if st.sidebar.button("Predict"):
+    prediction = model.predict([input_features])
+    prediction_proba = model.predict_proba([input_features])[0][1]  # Probability of failure
 
-# Show results
-if st.button('Predict'):
-    st.write(f"Prediction: {'Failure' if prediction[0] == 1 else 'No Failure'}")
-    st.write(f"Probability of Failure: {prediction_proba:.2f}")
+    # Probability of failure
+    if prediction[0] == 0 and prediction_proba < 0.2:
+        st.success("Result: No Failure Detected (Safe Zone)", icon="✅")
+        st.markdown(
+            f"<h3 style='color: green;'>Probability of Failure: {prediction_proba:.2f}</h3>",
+            unsafe_allow_html=True,
+        )
+    elif 0.2 <= prediction_proba <= 0.5:
+        st.warning("Result: At Risk (Caution)", icon="⚠️")
+        st.markdown(
+            f"<h3 style='color: yellow;'>Probability of Failure: {prediction_proba:.2f}</h3>",
+            unsafe_allow_html=True,
+        )
+    else:
+        st.error("Result: Failure Likely (Danger)", icon="❌")
+        st.markdown(
+            f"<h3 style='color: red;'>Probability of Failure: {prediction_proba:.2f}</h3>",
+            unsafe_allow_html=True,
+        )
