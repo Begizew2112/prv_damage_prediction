@@ -71,8 +71,11 @@ input_features = [
     Normalized_Pressure_Difference
 ]
 
-# Predict and display results
-if st.sidebar.button("Predict"):
+# Display the "Predict" button on the main page, below the title
+predict_button = st.button("Predict Damage")
+
+# Predict and display results when the button is clicked
+if predict_button:
     try:
         prediction = model.predict([input_features])
         if hasattr(model, "predict_proba"):
