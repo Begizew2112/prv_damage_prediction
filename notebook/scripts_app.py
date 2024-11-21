@@ -73,7 +73,29 @@ input_features = [
     Normalized_Pressure_Difference
 ]
 
-# Display the "Predict" button on the main page, below the title
+# Adding custom CSS for button styling
+st.markdown(
+    """
+    <style>
+    .stButton button {
+        background-color: #4CAF50;  /* Green background */
+        color: white;  /* White text */
+        font-size: 18px;  /* Font size */
+        padding: 12px 24px;  /* Button padding */
+        border: none;  /* Remove border */
+        border-radius: 8px;  /* Rounded corners */
+        cursor: pointer;  /* Cursor pointer on hover */
+        transition: background-color 0.3s ease;  /* Smooth transition */
+    }
+
+    .stButton button:hover {
+        background-color: #45a049;  /* Darker green on hover */
+    }
+    </style>
+    """, unsafe_allow_html=True
+)
+
+# Display the "Predict" button with custom style
 predict_button = st.button("Predict Damage")
 
 # Predict and display results when the button is clicked
