@@ -2,6 +2,8 @@ import streamlit as st
 import joblib
 import numpy as np
 import os
+import pandas as pd
+import matplotlib.pyplot as plt
 
 # Load the model using relative path
 model_path = os.path.join(os.path.dirname(__file__), 'pressure_regulating_valve_model.joblib')
@@ -104,5 +106,33 @@ if predict_button:
                     f"<h3 style='color: red;'>Probability of Failure: {prediction_proba:.2f}</h3>",
                     unsafe_allow_html=True,
                 )
+
+        # Feature importance plot
+        st.subheader('Feature Importance')
+        
+        # Get feature importance
+        feature_importances = model.feature_importances_  # Replace with your model if necessary
+        features = [
+            'Pressure_Input', 'Pressure_Output', 'Pressure_Difference', 'Flow_Rate', 'Temperature',
+            'Operating_Time', 'Valve_Size', 'Maintenance_Frequency', 'Load_Cycles', 'Material_Type_Brass',
+            'Material_Type_Polymer', 'Material_Type_Steel', 'Env_Cond_Corrosive', 'Env_Cond_Humid',
+            'Env_Cond_Normal', 'Pressure_Ratio', 'Normalized_Pressure_Difference'
+        ]  # Feature names, adjust accordingly
+        importance_df = pd.DataFrame({'Feature': features, 'Importance': feature_importances})
+
+        # Sort by importance
+        importance_df = importance_df.sort_values(by='Importance', ascending=False)
+
+        # Plot the feature importance
+        fig, ax = plt.subplots(figsize=(10, 6))
+        ax.barh(importance_df['Feature'], importance_df['Importance'], color='skyblue')
+        ax.set_xlabel('Importance')
+        ax.set_ylabel('Feature')
+        ax.set_title('Feature Importance')
+        ax.invert_yaxis()  # Invert y-axis to have the most important feature at the top
+
+        # Display the plot in Streamlit
+        st.pyplot(fig)
+
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
