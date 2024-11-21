@@ -3,10 +3,9 @@ import joblib
 import numpy as np
 import os
 
-# Define the path to the model file
-model_path = os.path.join(os.path.dirname(__file__), r'C:\Users\Yibabe\Desktop\prv_damage_prediction\notebook\pressure_regulating_valve_model.joblib')
 
-# Load the model
+# Load the model with the updated relative path
+model_path = 'notebook/pressure_regulating_valve_model.joblib'
 model = joblib.load(model_path)
 
 
