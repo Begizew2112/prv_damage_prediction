@@ -3,11 +3,11 @@ import joblib
 import numpy as np
 import os
 
-
-# Load the model with the updated relative path
-model_path = 'notebook/pressure_regulating_valve_model.joblib'
+# Load the model using relative path
+model_path = os.path.join(os.path.dirname(__file__), 'pressure_regulating_valve_model.joblib')
 model = joblib.load(model_path)
 
+# Your Streamlit app code follows...
 
 # Define the Streamlit dashboard
 st.title("Pressure Regulating Valve Damage Prediction")
