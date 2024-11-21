@@ -39,7 +39,7 @@ Maintenance_Frequency = st.sidebar.number_input(
     'Maintenance Frequency (Months)', min_value=0, max_value=40, value=12, step=1
 )
 Load_Cycles = st.sidebar.number_input(
-    'Load Cycles', min_value=0, max_value=20000, value=999079, step=100
+    'Load Cycles', min_value=0, max_value=999079, value=20000, step=100
 )
 
 # Dropdown menus for categorical inputs
