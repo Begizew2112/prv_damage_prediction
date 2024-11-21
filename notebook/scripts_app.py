@@ -3,13 +3,12 @@ import joblib
 import numpy as np
 import os
 
-# Load the trained model
-model_filename = r'C:\Users\Yibabe\Desktop\prv_damage_prediction\notebook\pressure_regulating_valve_model.joblib'
-try:
-    model = joblib.load(model_filename)
-except FileNotFoundError:
-    st.error("Model file not found. Please check the file path.")
-    st.stop()
+# Define the path to the model file
+model_path = os.path.join(os.path.dirname(__file__), r'C:\Users\Yibabe\Desktop\prv_damage_prediction\notebook\pressure_regulating_valve_model.joblib')
+
+# Load the model
+model = joblib.load(model_path)
+
 
 # Define the Streamlit dashboard
 st.title("Pressure Regulating Valve Damage Prediction")
