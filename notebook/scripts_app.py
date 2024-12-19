@@ -25,7 +25,7 @@ Pressure_Difference = st.sidebar.number_input(
     'Pressure Difference (kPa)', min_value=0, max_value=500, value=472, step=1
 )
 Flow_Rate = st.sidebar.number_input(
-    'Flow Rate (m³/s)', min_value=0.0, max_value=10.0, value=9, step=0.1
+    'Flow Rate (m³/s)', min_value=0.0, max_value=10.0, value=9.0, step=0.1
 )
 Temperature = st.sidebar.number_input(
     'Temperature (°C)', min_value=-50, max_value=90, value=2.948, step=1
