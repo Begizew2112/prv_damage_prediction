@@ -42,7 +42,6 @@ Maintenance_Frequency = st.sidebar.number_input(
 Load_Cycles = st.sidebar.number_input(
     'Load Cycles', min_value=0, max_value=999079, value=312068.0, step=100
 )
-
 # Dropdown menus for categorical inputs
 Material_Type = st.sidebar.selectbox(
     'Material Type', ['Brass', 'Polymer', 'Steel']
