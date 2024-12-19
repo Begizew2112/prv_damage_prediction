@@ -28,19 +28,19 @@ Flow_Rate = st.sidebar.number_input(
     'Flow Rate (m³/s)', min_value=0.0, max_value=10.0, value=9.0, step=0.1
 )
 Temperature = st.sidebar.number_input(
-    'Temperature (°C)', min_value=-50, max_value=90, value=2.948, step=1
+    'Temperature (°C)', min_value=-50, max_value=90, value=3.0, step=1
 )
 Operating_Time = st.sidebar.number_input(
-    'Operating Time (Hours)', min_value=0, max_value=50000, value=48070, step=100
+    'Operating Time (Hours)', min_value=0, max_value=50000, value=48070.0, step=100
 )
 Valve_Size = st.sidebar.number_input(
-    'Valve Size (mm)', min_value=10, max_value=200, value=41, step=5
+    'Valve Size (mm)', min_value=10, max_value=200, value=41.0, step=5
 )
 Maintenance_Frequency = st.sidebar.number_input(
-    'Maintenance Frequency (Months)', min_value=0, max_value=40, value=5, step=1
+    'Maintenance Frequency (Months)', min_value=0, max_value=40, value=5.0, step=1
 )
 Load_Cycles = st.sidebar.number_input(
-    'Load Cycles', min_value=0, max_value=999079, value=312068, step=100
+    'Load Cycles', min_value=0, max_value=999079, value=312068.0, step=100
 )
 
 # Dropdown menus for categorical inputs
