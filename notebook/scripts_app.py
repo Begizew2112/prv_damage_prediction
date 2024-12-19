@@ -17,22 +17,22 @@ st.sidebar.header("Input Parameters")
 
 # Numerical input parameters
 Pressure_Input = st.sidebar.number_input(
-    'Pressure Input (kPa)', min_value=0, max_value=5000, value=500, step=10
+    'Pressure Input (kPa)', min_value=0, max_value=5000, value=1000, step=10
 )
 Pressure_Output = st.sidebar.number_input(
     'Pressure Output (kPa)', min_value=0, max_value=5000, value=450, step=10
 )
 Pressure_Difference = st.sidebar.number_input(
-    'Pressure Difference (kPa)', min_value=0, max_value=500, value=50, step=1
+    'Pressure Difference (kPa)', min_value=0, max_value=500, value=550, step=1
 )
 Flow_Rate = st.sidebar.number_input(
-    'Flow Rate (m³/s)', min_value=0.0, max_value=10.0, value=0.5, step=0.1
+    'Flow Rate (m³/s)', min_value=0.0, max_value=10.0, value=6.0, step=0.1
 )
 Temperature = st.sidebar.number_input(
-    'Temperature (°C)', min_value=-50, max_value=90, value=25, step=1
+    'Temperature (°C)', min_value=-50, max_value=90, value=50, step=1
 )
 Operating_Time = st.sidebar.number_input(
-    'Operating Time (Hours)', min_value=0, max_value=50000, value=1000, step=100
+    'Operating Time (Hours)', min_value=0, max_value=50000, value=3000, step=100
 )
 Valve_Size = st.sidebar.number_input(
     'Valve Size (mm)', min_value=10, max_value=200, value=100, step=5
