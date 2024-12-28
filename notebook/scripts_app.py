@@ -12,7 +12,7 @@ model = joblib.load(model_path)
 # Your Streamlit app code follows...
 
 # Define the Streamlit dashboard
-st.title("Pressure Regulating Valve Damage Prediction")
+st.title(" Condition based Damage Prediction of pressure regulating valve")
 st.sidebar.header("Input Parameters")
 
 # Numerical input parameters
