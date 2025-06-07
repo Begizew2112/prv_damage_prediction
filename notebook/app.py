@@ -1,18 +1,15 @@
 import streamlit as st
-import joblib
+import pandas as pd
 import numpy as np
 import os
-import pandas as pd
-import matplotlib.pyplot as plt
+from tensorflow.keras.models import load_model
 
-# Load the model using relative path
-model_path = os.path.join(os.path.dirname(__file__), 'pressure_regulating_valve_model.joblib')
-model = joblib.load(model_path)
+# Load Keras model
+model_path = os.path.join(os.path.dirname(__file__), 'rul_model1.keras')
+model = load_model(model_path)
 
-# Your Streamlit app code follows...
-
-st.set_page_config(page_title=" bearing RUL Pridiction", layout="centered")
-st.title("brearing remaining usefull life prediction ")
+st.set_page_config(page_title="Valve Damage Prediction", layout="centered")
+st.title("🔧 Pressure Regulating Valve Damage Predictor")
 st.write("Upload CSV data containing x and y direction vibration signals.")
 
 # File uploader
@@ -28,11 +25,11 @@ if uploaded_file is not None:
         st.write(df.head())
 
         # Check required columns
-        if not {'x_direction', 'y_direction'}.issubset(df.columns):
-            st.error("CSV must contain 'x_direction' and 'y_direction' columns.")
+        if not {'vibration_x', 'vibration_y'}.issubset(df.columns):
+            st.error("CSV must contain 'vibration_x' and 'vibration_y' columns.")
         else:
             # Extract features
-            input_data = df[['x_direction', 'y_direction']].to_numpy()
+            input_data = df[['vibration_x', 'vibration_y']].to_numpy()
 
             # Reshape if needed (depends on your model input)
             # Example: (n_samples, 2) → model might expect (1, n_samples, 2)
