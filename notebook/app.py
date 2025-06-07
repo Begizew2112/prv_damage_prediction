@@ -67,9 +67,9 @@ if uploaded_file is not None:
             model = load_lstm_model()
             y_pred = model.predict(X_seq).flatten()
 
-            # Plot results
+          #  Plot results
             st.subheader("Predicted vs Actual RUL")
-            fig, ax = plt.subplots(figsize=(12, 5))
+            fig, ax = plt.subplots(figsize=(10, 5))
             ax.plot(y_true[:400], label="Actual RUL")
             ax.plot(y_pred[:400], label="Predicted RUL")
             ax.set_xlabel("Sample Index")
@@ -77,17 +77,12 @@ if uploaded_file is not None:
             ax.set_title("Predicted vs Actual RUL")
             ax.legend()
             st.pyplot(fig)
+            # Section Header
+            st.subheader("System Visualization / Bearing Image")
 
-
-            # Normalized View (Optional)
-            fig2, ax2 = plt.subplots(figsize=(12, 5))
-            ax2.plot(y_true[:400], "bo", label="Actual RUL (normalized)")
-            ax2.plot(y_pred[:400], "rx", label="Predicted RUL (normalized)")
-            ax2.set_xlabel("Sample Index")
-            ax2.set_ylabel("Remaining Useful Life (Normalized)")
-            ax2.set_title("Predicted vs Actual RUL (Normalized)")
-            ax2.legend()
-            st.pyplot(fig2)
-
+            # Display Images
+            st.image("data/image1.png", caption="Actual Life vs Predicted", use_column_width=True)
+            st.image("data/image2.png", caption="Ball Bearing: Actual vs Predicted", use_column_width=True)
+            st.image("data/image3.png", caption="Ball Actual Life vs Predicted", use_column_width=True)
     except Exception as e:
         st.error(f"Something went wrong: {e}")
